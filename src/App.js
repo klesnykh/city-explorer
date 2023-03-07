@@ -1,24 +1,27 @@
 import React from 'react';
 import axios from 'axios';
+import CityForm from './CityForm'
+import City from './City';
+import 'bootstrap/dist/css/bootstrap.css';
+import './App.css'
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      cityName: '',
+      cityNameInput: '',
       cityData: [],
       error: false,
       errorMessage: ''
     }
   }
 
-citySubmit = async (event) => {
-  event.preventDefault();
-  console.log(this.state.cityName);
+citySubmit = async (cityNameInput) => {
+  console.log(this.state.cityNameInput);
   console.log(process.env.REACT_APP_LOCATIONIQ_API_KEY);
   let state;
-  let url=`https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.cityName}&format=json`;
+  let url=`https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${cityNameInput}&format=json`;
   console.log(url);
   try{
     state = await axios.get(url);
@@ -36,13 +39,6 @@ citySubmit = async (event) => {
   }
 }
 
-handleCityInput = (event) => {
-  this.setState({
-    cityName: event.target.value
-  });
-}
-
-
   render() {
     let cityName = this.state.cityData.display_name;
     let lat = this.state.cityData.lat;
@@ -57,22 +53,28 @@ handleCityInput = (event) => {
           <h1>Data from API</h1>
         </header>
         <main>
-          <form onSubmit={this.citySubmit}>
-            <label>Pick a City
-              <input type="text" onChange={this.handleCityInput}/>
-            </label>
-            <button type="submit">Explore!</button>
-          </form>
+          <CityForm
+            citySubmit={this.citySubmit}
+            handleCityInput={this.handleCityInput}
+            cityName={cityName}
+            cityCoordinates={cityCoordinates}
+            mapURL={mapURL}
+            />
           {this.state.error
           ?
           <p>{this.state.errorMessage}</p>
           :
-          <ul>
-            <li>{cityName}</li>
-            <li>{cityCoordinates}</li>
-            <li><img src={mapURL} alt={cityName}/></li>
-          </ul>
-        }
+            (cityName===undefined
+              ?
+            <p/>
+            :
+            <City
+              cityName={cityName}
+              cityCoordinates={cityCoordinates}
+              mapURL={mapURL}
+            />
+            )
+          }
         </main>
         <footer></footer>
       </>
