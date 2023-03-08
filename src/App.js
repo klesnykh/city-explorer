@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import CityForm from './CityForm'
 import City from './City';
+import Weather from './Weather'
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css'
 
@@ -12,6 +13,7 @@ class App extends React.Component {
     this.state = {
       cityNameInput: '',
       cityData: [],
+      weatherData: [],
       error: false,
       errorMessage: ''
     }
@@ -21,13 +23,20 @@ citySubmit = async (cityNameInput) => {
   console.log(this.state.cityNameInput);
   console.log(process.env.REACT_APP_LOCATIONIQ_API_KEY);
   let state;
+  let weatherData;
+
   let url=`https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${cityNameInput}&format=json`;
-  console.log(url);
+  //console.log(url);
+
+  let weatherUrl=`${process.env.REACT_APP_LOCALURL}/weather?search=${cityNameInput}`;
+  console.log(weatherUrl);
   try{
     state = await axios.get(url);
-    console.log(state);
+    weatherData = await axios.get(weatherUrl);
+    console.log(weatherData);
     this.setState({
-      cityData: state.data[0]
+      cityData: state.data[0],
+      weatherData: weatherData.data
     });
   } catch (error) {
     console.log('error: ', error);
@@ -47,6 +56,17 @@ citySubmit = async (cityNameInput) => {
 
     let mapURL = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${lat},${long}&zoom=12`;
 
+    console.log(this.state.weatherData.description);
+
+    let threeDayWeather = this.state.weatherData.map(day => {
+      return(
+        <Weather
+          date={day.date}
+          description={day.description}
+        />
+      )
+    })
+
     return (
       <>
         <header>
@@ -60,6 +80,7 @@ citySubmit = async (cityNameInput) => {
             cityCoordinates={cityCoordinates}
             mapURL={mapURL}
             />
+          
           {this.state.error
           ?
           <p>{this.state.errorMessage}</p>
@@ -68,11 +89,16 @@ citySubmit = async (cityNameInput) => {
               ?
             <p/>
             :
-            <City
-              cityName={cityName}
-              cityCoordinates={cityCoordinates}
-              mapURL={mapURL}
-            />
+            <>
+              <City
+                cityName={cityName}
+                cityCoordinates={cityCoordinates}
+                mapURL={mapURL}
+              />
+              <div>
+                {threeDayWeather}
+              </div>
+            </>
             )
           }
         </main>
