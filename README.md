@@ -26,7 +26,7 @@ Estimate of time needed to complete: 5hrs
 Start time: 2pm  
 Finish time: 7pm  
 Actual time needed to complete: 5hrs  
-![Lab07WRC](./public/lab7.jpg)
+![Lab07WRC](./public/Lab7.jpg)
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
