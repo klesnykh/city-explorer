@@ -14,15 +14,19 @@
 
 ## Change Log / Features
 
-Name of feature: ________________________________
+Name of feature: Lab06  
+Estimate of time needed to complete: 5hrs  
+Start time: 1pm  
+Finish time: 5pm  
+Actual time needed to complete: 4hrs  
+![Lab06WRC](./public/lab6.jpg)
 
-Estimate of time needed to complete: _____
-
-Start time: _____
-
-Finish time: _____
-
-Actual time needed to complete: _____
+Name of feature: Lab07  
+Estimate of time needed to complete: 5hrs  
+Start time: 2pm  
+Finish time: 7pm  
+Actual time needed to complete: 5hrs  
+![Lab07WRC](./public/lab7.jpg)
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
