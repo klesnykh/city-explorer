@@ -3,7 +3,9 @@ import axios from 'axios';
 import CityForm from './CityForm'
 import City from './City';
 import Weather from './Weather'
+import Movie from './Movie'
 import 'bootstrap/dist/css/bootstrap.css';
+import Row from 'react-bootstrap/Row';
 import './App.css'
 
 class App extends React.Component {
@@ -14,18 +16,19 @@ class App extends React.Component {
       cityNameInput: '',
       cityData: [],
       weatherData: [],
+      movieData: [],
       error: false,
       errorMessage: '',
     }
   }
 
-citySubmit = async (cityNameInput) => {
-  console.log(this.state.cityNameInput);
+citySubmit = async (cityNNName) => {
+  console.log(this.state.cityName);
   console.log(process.env.REACT_APP_LOCATIONIQ_API_KEY);
   let state;
   //let weatherData;
 
-  let url=`https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${cityNameInput}&format=json`;
+  let url=`https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${cityNNName}&format=json`;
   //console.log(url);
 
   //let weatherUrl=`${process.env.REACT_APP_LOCALURL}/weather?search=${cityNameInput}`;
@@ -35,6 +38,7 @@ citySubmit = async (cityNameInput) => {
     //weatherData = await axios.get(weatherUrl);
     //console.log(state.data[0]);
     this.setState({
+      cityNameInput: cityNNName,
       cityData: state.data[0],
       //eatherData: weatherData.data
     }, this.weatherSubmit);
@@ -51,13 +55,14 @@ citySubmit = async (cityNameInput) => {
 }
 
 weatherSubmit = async () => {
+  this.movieSubmit();
   let weatherUrl=`${process.env.REACT_APP_LOCALURL}/weather?lat=${this.state.cityData.lat}&lon=${this.state.cityData.lon}`;
   console.log(this.state.cityData.lon);
-  let weatherData;
+  let weatherDDData;
   try{
-    weatherData = await axios.get(weatherUrl);
+    weatherDDData = await axios.get(weatherUrl);
     this.setState({
-      weatherData: weatherData.data
+      weatherData: weatherDDData.data
     })
   } catch (error) {
     console.log('error: ', error);
@@ -68,6 +73,26 @@ weatherSubmit = async () => {
     })
   }
   console.log(weatherUrl);
+}
+
+movieSubmit = async () => {
+
+  let movieUrl = `${process.env.REACT_APP_LOCALURL}/movies?search=${this.state.cityNameInput}`;
+  let movieDDData;
+  try{
+    movieDDData = await axios.get(movieUrl);
+    this.setState({
+      movieData: movieDDData.data
+    })
+  } catch (error) {
+    console.log('error: ', error);
+    console.log('error.message: ', error.message);
+    this.setState({
+      error: true,
+      errorMessage: `An Error Occured: ${error.response.status}`
+    })
+  }
+
 }
 
   render() {
@@ -85,6 +110,20 @@ weatherSubmit = async () => {
         <Weather
           date={day.date}
           description={day.description}
+        />
+      )
+    })
+
+    let movies = this.state.movieData.map(movie => {
+      return(
+        <Movie
+          title = {movie.title}
+          overview = {movie.overview}
+          average_votes = {movie.average_votes}
+          total_votes = {movie.total_votes}
+          img_url = {movie.img_url}
+          popularity = {movie.popularity}
+          released_on = {movie.released_on}
         />
       )
     })
@@ -117,9 +156,13 @@ weatherSubmit = async () => {
                 cityCoordinates={cityCoordinates}
                 mapURL={mapURL}
               />
-              <div>
+              <div>Three Day Weather
                 {threeDayWeather}
               </div>
+              <h2>Movies From {this.state.cityNameInput} from 2020</h2>
+              <Row>
+                {movies}
+              </Row>
             </>
             )
           }
