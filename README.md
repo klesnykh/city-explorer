@@ -28,5 +28,12 @@ Finish time: 7pm
 Actual time needed to complete: 5hrs  
 ![Lab07WRC](./public/Lab7.jpg)
 
+Name of feature: Lab07  
+Estimate of time needed to complete: 5hrs  
+Start time: 2pm  
+Finish time: 7pm  
+Actual time needed to complete: 5hrs  
+![Lab08WRC](./public/Lab8.jpg)
+
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
