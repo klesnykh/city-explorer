@@ -103,7 +103,7 @@ movieSubmit = async () => {
 
     let mapURL = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${lat},${long}&zoom=12`;
 
-    console.log(this.state.weatherData.description);
+    //console.log(this.state.weatherData.description);
 
     let threeDayWeather = this.state.weatherData.map(day => {
       return(
@@ -115,6 +115,7 @@ movieSubmit = async () => {
     })
 
     let movies = this.state.movieData.map(movie => {
+      console.log(movie.img_url);
       return(
         <Movie
           title = {movie.title}

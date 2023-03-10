@@ -35,5 +35,11 @@ Finish time: 7:30pm
 Actual time needed to complete: 5hrs  
 ![Lab08WRC](./public/Lab8.jpg)  
 
+Name of feature: Lab09  
+Estimate of time needed to complete: 1hrs  
+Start time: 4pm  
+Finish time: 5pm  
+Actual time needed to complete: 1hrs
+
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
